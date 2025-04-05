@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { headers } from "next/headers";
-import ContextProvider from '@/context';
+import ContextProvider from "@/context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,16 +12,18 @@ const inter = Inter({
 // ✅ متادیتا مخصوص پروژه‌ی Ewave Airdrop
 export const metadata: Metadata = {
   title: "Ewave Airdrop | Claim Free BDOGE",
-  description: "Claim your free BDOGE tokens powered by Reown AppKit."
+  description: "Claim your free BDOGE tokens powered by Reown AppKit.",
 };
 
-export default function RootLayout({
+// ✅ اصلاح شده: تابع async
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // فقط در سرور قابل دسترسی است
-  const cookies = headers().get('cookie');
+  // ✅ await اضافه شد
+  const headerList = await headers();
+  const cookies = headerList.get("cookie");
 
   return (
     <html lang="en">
