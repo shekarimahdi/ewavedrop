@@ -5,7 +5,87 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
 const contractAddress = "0x54c5D4216972Db0D12c0496c316f833B992cA176";
-const contractABI = [{"inputs":[{"internalType":"address","name":"_tokenAddress","type":"address"},{"internalType":"uint256","name":"_airdropAmount","type":"uint256"},{"internalType":"uint256","name":"_feeAmount","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"airdropAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"claimAirdrop","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"feeAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_airdropAmount","type":"uint256"}],"name":"setAirdropAmount","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_feeAmount","type":"uint256"}],"name":"setFeeAmount","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"token","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"tokenAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawBNB","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawTokens","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+const contractABI = [
+  {
+    inputs: [
+      { internalType: "address", name: "_tokenAddress", type: "address" },
+      { internalType: "uint256", name: "_airdropAmount", type: "uint256" },
+      { internalType: "uint256", name: "_feeAmount", type: "uint256" },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "airdropAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "claimAirdrop",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "feeAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_airdropAmount", type: "uint256" }],
+    name: "setAirdropAmount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "_feeAmount", type: "uint256" }],
+    name: "setFeeAmount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "token",
+    outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "tokenAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    name: "withdrawBNB",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    name: "withdrawTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
 
 export default function Home() {
   const { isConnected, address } = useAccount();
@@ -13,6 +93,7 @@ export default function Home() {
   const [claiming, setClaiming] = useState(false);
   const [contractFee, setContractFee] = useState<string | null>(null);
 
+  // دریافت مقدار کارمزد از قرارداد
   useEffect(() => {
     const fetchFeeAmount = async () => {
       if (!walletClient) return;
@@ -31,6 +112,7 @@ export default function Home() {
     fetchFeeAmount();
   }, [walletClient]);
 
+  // دریافت ایردراپ
   const claimAirdrop = async () => {
     if (!walletClient || !isConnected || !address) {
       alert("ابتدا والت خود را متصل کنید.");
@@ -44,9 +126,13 @@ export default function Home() {
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-      const fee = contractFee ?? ethers.parseUnits("0.0142857", "ether");
-      const tx = await contract.claimAirdrop({ value: fee });
+      // تبدیل مقدار کارمزد به واحد wei
+      const fee = contractFee ? ethers.parseUnits(contractFee, "wei") : ethers.parseUnits("0.0142857", "ether");
 
+      // ارسال تراکنش
+      const tx = await contract.claimAirdrop({ value: fee, gasLimit: 500000 });  // گاز را مشخص می‌کنیم
+
+      // صبر کردن تا تراکنش تکمیل شود
       await tx.wait();
       alert("ایردراپ با موفقیت دریافت شد!");
     } catch (error) {
