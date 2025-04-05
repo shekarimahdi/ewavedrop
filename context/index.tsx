@@ -77,12 +77,17 @@ function NetworkChecker() {
       if (typeof window === 'undefined' || !window.ethereum) return
       if (!isConnected) return
 
+      // 👇 تایپ‌کست درست برای TypeScript
+      const ethereum = window.ethereum as {
+        request: (args: { method: string; params?: any[] }) => Promise<unknown>
+      }
+
       const correctChainId = defaultNetwork.id
       if (chainId === correctChainId) return
 
       try {
         console.log('🔄 Switching to correct network...')
-        await window.ethereum.request({
+        await ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: `0x${correctChainId.toString(16)}` }]
         })
@@ -91,7 +96,7 @@ function NetworkChecker() {
         console.warn('⚠️ Network not found, trying to add it...')
         if (error.code === 4902) {
           try {
-            await window.ethereum.request({
+            await ethereum.request({
               method: 'wallet_addEthereumChain',
               params: [
                 {
