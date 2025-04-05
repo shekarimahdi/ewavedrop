@@ -11,7 +11,8 @@ import {
   avalanche,
   base,
   optimism,
-  polygon
+  polygon,
+  type AppKitNetwork
 } from '@reown/appkit/networks'
 import React, { type ReactNode, useEffect } from 'react'
 import {
@@ -22,8 +23,17 @@ import {
   useChainId
 } from 'wagmi'
 
-// ✅ تعریف یک لیست واحد برای شبکه‌ها
-const allNetworks = [bscTestnet, bsc, mainnet, arbitrum, avalanche, base, optimism, polygon]
+// ✅ لیست شبکه‌ها با تضمین حداقل یک شبکه برای TypeScript
+const allNetworks = [
+  bscTestnet,
+  bsc,
+  mainnet,
+  arbitrum,
+  avalanche,
+  base,
+  optimism,
+  polygon
+] as [typeof bscTestnet, ...AppKitNetwork[]]
 
 // ✅ تعیین شبکه پیش‌فرض بر اساس محیط
 const defaultNetwork = process.env.NODE_ENV === 'development' ? bscTestnet : bsc
@@ -65,7 +75,6 @@ function NetworkChecker() {
   useEffect(() => {
     const switchToCorrectNetwork = async () => {
       if (typeof window === 'undefined' || !window.ethereum) return
-
       if (!isConnected) return
 
       const correctChainId = defaultNetwork.id
