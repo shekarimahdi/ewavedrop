@@ -5,20 +5,8 @@ import { useAccount, useWalletClient, useSwitchChain } from "wagmi";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
-const contractAddress = "0x54c5D4216972Db0D12c0496c316f833B992cA176";
-const contractABI = [
-  {"inputs":[{"internalType":"address","name":"_tokenAddress","type":"address"},{"internalType":"uint256","name":"_airdropAmount","type":"uint256"},{"internalType":"uint256","name":"_feeAmount","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},
-  {"inputs":[],"name":"airdropAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-  {"inputs":[],"name":"claimAirdrop","outputs":[],"stateMutability":"payable","type":"function"},
-  {"inputs":[],"name":"feeAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-  {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-  {"inputs":[{"internalType":"uint256","name":"_airdropAmount","type":"uint256"}],"name":"setAirdropAmount","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"inputs":[{"internalType":"uint256","name":"_feeAmount","type":"uint256"}],"name":"setFeeAmount","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"inputs":[],"name":"token","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-  {"inputs":[],"name":"tokenAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-  {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawBNB","outputs":[],"stateMutability":"nonpayable","type":"function"},
-  {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawTokens","outputs":[],"stateMutability":"nonpayable","type":"function"}
-];
+const contractAddress = "0x9DCf967c2d2c60f72B0ac984f57097858eA700f6";
+const contractABI = [{"inputs":[{"internalType":"address","name":"_tokenAddress","type":"address"},{"internalType":"uint256","name":"_airdropAmount","type":"uint256"},{"internalType":"uint256","name":"_feeAmount","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"airdropAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"claimAirdrop","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"feeAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_airdropAmount","type":"uint256"}],"name":"setAirdropAmount","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_feeAmount","type":"uint256"}],"name":"setFeeAmount","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"token","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"tokenAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawBNB","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawTokens","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
 export default function Home() {
   const { isConnected, address } = useAccount();
@@ -46,46 +34,46 @@ export default function Home() {
   }, [walletClient]);
 
   useEffect(() => {
-    const bscTestnetChainId = 97;
+    const bscMainnetChainId = 56;
 
-    const bscTestnetParams = {
+    const bscMainnetParams = {
       chain: {  // این بخش اضافه شده است
-        id: bscTestnetChainId,  // تغییر از 'chainId' به 'id'
-        name: "Binance Smart Chain Testnet",
+        id: bscMainnetChainId,  // تغییر از 'chainId' به 'id'
+        name: "Binance Smart Chain",
         nativeCurrency: {
           name: "BNB",
-          symbol: "tBNB",
+          symbol: "BNB",
           decimals: 18
         },
         rpcUrls: {
           default: {
-            http: ["https://data-seed-prebsc-1-s1.binance.org:8545/"]
+            http: ["https://bsc-dataseed.binance.org/"]
           }
         },
         blockExplorers: {
           default: {
             name: "BscScan",
-            url: "https://testnet.bscscan.com"
+            url: "https://bscscan.com"
           }
         }
       }
     };
 
-    const ensureBscTestnet = async () => {
+    const ensureBscMainnet = async () => {
       if (!walletClient) return;
 
       try {
-        if (walletClient.chain.id !== bscTestnetChainId) {
-          await walletClient.addChain(bscTestnetParams);
-          await walletClient.switchChain({ id: bscTestnetChainId });
+        if (walletClient.chain.id !== bscMainnetChainId) {
+          await walletClient.addChain(bscMainnetParams);
+          await walletClient.switchChain({ id: bscMainnetChainId });
         }
       } catch (err) {
         console.error("Network switch error:", err);
-        alert("Please switch to Binance Smart Chain Testnet.");
+        alert("Please switch to Binance Smart Chain.");
       }
     };
 
-    ensureBscTestnet();
+    ensureBscMainnet();
   }, [walletClient]);
 
   useEffect(() => {
@@ -178,7 +166,7 @@ export default function Home() {
           You can receive<span className="text-yellow-400">&nbsp;1000</span> $Ewave tokens with each claim.
         </p>
         <p className="text-gray-300 mt-2 text-justify leading-relaxed text-sm">
-          🚀 This is more than just an airdrop — it’s your gateway to the next.
+          🚀 This is more than just an airdrop — it’s your gateway to the next 1000x opportunity.          .
         </p>
         <p className="text-gray-300 mt-2 text-justify leading-relaxed text-sm">
           🌐 Backed by leading global enterprises and supported by world-class investors, our token is set to be listed on top-tier exchanges very soon.

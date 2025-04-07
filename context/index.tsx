@@ -4,7 +4,6 @@ import { wagmiAdapter, projectId } from '@/config'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createAppKit } from '@reown/appkit/react'
 import {
-  bscTestnet,
   bsc,
   type AppKitNetwork
 } from '@reown/appkit/networks'
@@ -18,13 +17,10 @@ import {
 } from 'wagmi'
 
 // ✅ لیست شبکه‌ها با تضمین حداقل یک شبکه برای TypeScript
-const allNetworks = [
-  bscTestnet,
-  bsc,
-] as [typeof bscTestnet, ...AppKitNetwork[]]
+const allNetworks = [bsc] as [AppKitNetwork]
 
 // ✅ تعیین شبکه پیش‌فرض بر اساس محیط
-const defaultNetwork = process.env.NODE_ENV === 'development' ? bscTestnet : bsc
+const defaultNetwork = bsc
 
 // ✅ بررسی projectId
 if (!projectId) {
@@ -88,11 +84,11 @@ function NetworkChecker() {
               method: 'wallet_addEthereumChain',
               params: [
                 {
-                  chainId: '0x61',
-                  chainName: 'BNB Smart Chain Testnet',
-                  nativeCurrency: { name: 'tBNB', symbol: 'tBNB', decimals: 18 },
-                  rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/'],
-                  blockExplorerUrls: ['https://testnet.bscscan.com/']
+                  chainId: '0x38',
+                  chainName: 'BNB Smart Chain',
+                  nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+                  rpcUrls: ['https://bsc-dataseed.binance.org/'],
+                  blockExplorerUrls: ['https://bscscan.com/']
                 }
               ]
             })

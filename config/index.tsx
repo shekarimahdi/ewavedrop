@@ -1,7 +1,7 @@
 // wagmiConfig.ts
 import { cookieStorage, createStorage } from "wagmi";
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
-import { bscTestnet, mainnet } from '@reown/appkit/networks';
+import { bsc } from '@reown/appkit/networks';
 
 export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
 
@@ -10,9 +10,7 @@ if (!projectId) {
 }
 
 // انتخاب شبکه‌ها بر اساس محیط
-const networks = process.env.NODE_ENV === "development"
-  ? [bscTestnet]
-  : [mainnet];
+const networks = [bsc];
 
 // راه‌اندازی wagmi با adapter
 export const wagmiAdapter = new WagmiAdapter({
