@@ -6,12 +6,6 @@ import { createAppKit } from '@reown/appkit/react'
 import {
   bscTestnet,
   bsc,
-  mainnet,
-  arbitrum,
-  avalanche,
-  base,
-  optimism,
-  polygon,
   type AppKitNetwork
 } from '@reown/appkit/networks'
 import React, { type ReactNode, useEffect } from 'react'
@@ -27,12 +21,6 @@ import {
 const allNetworks = [
   bscTestnet,
   bsc,
-  mainnet,
-  arbitrum,
-  avalanche,
-  base,
-  optimism,
-  polygon
 ] as [typeof bscTestnet, ...AppKitNetwork[]]
 
 // ✅ تعیین شبکه پیش‌فرض بر اساس محیط
