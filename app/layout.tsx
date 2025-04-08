@@ -11,8 +11,8 @@ const inter = Inter({
 
 // ✅ متادیتا مخصوص پروژه‌ی Ewave Airdrop
 export const metadata: Metadata = {
-  title: "Ewave Airdrop | Claim Free BDOGE",
-  description: "Claim your free BDOGE tokens powered by Reown AppKit.",
+  title: "Ewave Airdrop | Claim $Ewave",
+  description: "Claim your Ewave tokens powered by Ewave Project.",
 };
 
 // ✅ اصلاح شده: تابع async

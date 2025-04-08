@@ -78,7 +78,7 @@ export default function Home() {
 
   useEffect(() => {
     let start = 0;
-    const end = 55;
+    const end = 0;
     const interval = setInterval(() => {
       start += 1;
       setCounter(start);
