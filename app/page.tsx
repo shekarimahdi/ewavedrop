@@ -78,7 +78,7 @@ export default function Home() {
 
   useEffect(() => {
     let start = 0;
-    const end = 0;
+    const end = 203;
     const interval = setInterval(() => {
       start += 1;
       setCounter(start);
@@ -175,7 +175,8 @@ export default function Home() {
           🔒 To ensure fairness and prevent Sybil attacks, only the network gas fee is required — you pay nothing else.
         </p>
         <p className="text-gray-300 mt-2 text-justify leading-relaxed text-sm">
-          💎 With real-world utility across our upcoming products and massive adoption ahead, the potential is truly.
+          💎 Integrating this token into all our products will greatly increase the value of this token.
+
         </p>
         <p className="text-gray-300 mt-2 text-justify leading-relaxed text-sm">
           🔥 Don’t miss your chance — <span className="text-yellow-400">claim now and be part of the revolution.</span>
