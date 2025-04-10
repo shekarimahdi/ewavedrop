@@ -77,15 +77,27 @@ export default function Home() {
   }, [walletClient]);
 
   useEffect(() => {
-    let start = 0;
     const end = 556;
+    const duration = 2000; // میلی‌ثانیه
+    const frameRate = 1000 / 60; // تقریباً 60 فریم بر ثانیه
+    const totalFrames = Math.round(duration / frameRate);
+    let frame = 0;
+  
     const interval = setInterval(() => {
-      start += 100;
-      setCounter(start);
-      if (start >= end) clearInterval(interval);
-    }, 40);
+      frame++;
+      const progress = frame / totalFrames;
+      const currentValue = Math.round(progress * end);
+      setCounter(currentValue);
+  
+      if (frame >= totalFrames) {
+        clearInterval(interval);
+        setCounter(end); // اطمینان از رسیدن دقیق به عدد نهایی
+      }
+    }, frameRate);
+  
     return () => clearInterval(interval);
   }, []);
+  
 
   const claimAirdrop = async () => {
     if (!walletClient || !isConnected || !address) {
