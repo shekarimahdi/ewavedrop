@@ -78,9 +78,9 @@ export default function Home() {
 
   useEffect(() => {
     let start = 0;
-    const end = 203;
+    const end = 556;
     const interval = setInterval(() => {
-      start += 1;
+      start += 100;
       setCounter(start);
       if (start >= end) clearInterval(interval);
     }, 40);
