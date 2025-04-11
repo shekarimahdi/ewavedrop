@@ -77,7 +77,7 @@ export default function Home() {
   }, [walletClient]);
 
   useEffect(() => {
-    const end = 556;
+    const end = 896;
     const duration = 2000; // میلی‌ثانیه
     const frameRate = 1000 / 60; // تقریباً 60 فریم بر ثانیه
     const totalFrames = Math.round(duration / frameRate);
