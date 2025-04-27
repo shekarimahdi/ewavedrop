@@ -21,7 +21,7 @@ export default function Home() {
     seconds: 0,
   });
 
-  const countdownEndDate = new Date("2025-05-03T12:00:00Z"); // تاریخ ثابت شده
+  const countdownEndDate = new Date("2025-05-02T12:00:00Z"); // تاریخ ثابت شده
 
   /*
   const [counter, setCounter] = useState(0);
