@@ -19,7 +19,7 @@ export default function Home() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    const endTime = new Date("2025-05-05T00:00:00Z").getTime();
+    const endTime = new Date("2025-05-05T18:00:00Z").getTime();
 
     const timerInterval = setInterval(() => {
       const now = new Date().getTime();
