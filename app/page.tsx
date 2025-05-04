@@ -14,32 +14,6 @@ export default function Home() {
   const { switchChain } = useSwitchChain();
   const [claiming, setClaiming] = useState(false);
   const [contractFee, setContractFee] = useState<string | null>(null);
-  const [counter, setCounter] = useState(0);
-
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    const endTime = new Date("2025-05-05T18:00:00Z").getTime();
-
-    const timerInterval = setInterval(() => {
-      const now = new Date().getTime();
-      const timeRemaining = endTime - now;
-
-      if (timeRemaining <= 0) {
-        clearInterval(timerInterval);
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      } else {
-        setTimeLeft({
-          days: Math.floor(timeRemaining / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((timeRemaining % (1000 * 60)) / 1000),
-        });
-      }
-    }, 1000);
-
-    return () => clearInterval(timerInterval);
-  }, []);
 
   useEffect(() => {
     const fetchFeeAmount = async () => {
@@ -166,16 +140,6 @@ export default function Home() {
           Chance <span className="text-yellow-400">Again!</span>
         </h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 1 }}
-          className="text-yellow-400 text-2xl font-extrabold text-center mt-4 pulse-glow"
-        >
-          <span className="text-white text-xl font-medium ml-2">Airdrop ends in</span>
-          <span className="ml-2">{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</span>
-        </motion.p>
-
         <p className="text-gray-300 mt-4 text-justify leading-relaxed text-sm">
           You can receive<span className="text-yellow-400">&nbsp;1000</span> $Ewave tokens with each claim.
         </p>
@@ -232,44 +196,6 @@ export default function Home() {
           <span className="text-sm font-medium">Facebook</span>
         </a>
       </div>
-
-      <style jsx>{`
-        @keyframes pulseGlow {
-          0%, 100% {
-            text-shadow: 0 0 0px rgba(255, 221, 0, 0.5);
-          }
-          50% {
-            text-shadow: 0 0 15px rgba(255, 221, 0, 0.9);
-          }
-        }
-        .pulse-glow {
-          animation: pulseGlow 1.8s infinite;
-        }
-
-        @keyframes glowMove {
-          0% {
-            text-shadow: 0 0 4px #facc15, 0 0 8px #facc15;
-            transform: translateX(0);
-            opacity: 1;
-          }
-          50% {
-            text-shadow: 0 0 10px #fde047, 0 0 20px #fde047;
-            transform: translateX(4px);
-            opacity: 0.7;
-          }
-          100% {
-            text-shadow: 0 0 4px #facc15, 0 0 8px #facc15;
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-
-        .glowing-link {
-          animation: glowMove 2.5s ease-in-out infinite;
-          transition: all 0.3s ease;
-          text-decoration: underline;
-        }
-      `}</style>
     </main>
   );
 }
